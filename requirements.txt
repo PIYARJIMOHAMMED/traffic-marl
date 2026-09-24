@@ -4,7 +4,6 @@ pytest
 numpy
 pandas
 gymnasium
-torch
 stable-baselines3
 flask
 plotly
