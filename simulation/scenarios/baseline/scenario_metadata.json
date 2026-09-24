@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "baseline",
+    "configuration": {
+        "name": "baseline",
+        "demand_multiplier": 1.0,
+        "seed": 42,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 0.0,
+        "corridor_bias": null,
+        "description": "Normal traffic demand used as the primary baseline scenario."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\baseline\\routes.rou.xml",
+    "random_seed": 42,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

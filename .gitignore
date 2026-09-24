@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Virtual environments
+envir/
+venv/
+.venv/
+
+# Secrets
+.env
+*.env
+
+# Runtime logs
+*.log
+backend/app/logs/*
+rl/logs/*
+
+# Generated evaluation output
+rl/results/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+envir/
+
+
+/envir/

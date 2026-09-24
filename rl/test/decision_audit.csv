@@ -1,0 +1,9 @@
+timestamp,intersection,proposed_action,safety_approved_action,final_action,human_approval_required,human_approved,status,reason
+2026-09-04T10:15:20.030987+00:00,A,1,1,1,False,True,AUTO_APPROVED,Safe action automatically approved
+2026-09-04T10:15:20.031895+00:00,B,1,0,0,False,False,SAFETY_OVERRIDE,Phase change blocked because minimum green duration has not elapsed
+2026-09-04T10:15:20.036893+00:00,C,1,0,0,False,False,SAFETY_OVERRIDE,Phase change blocked during yellow transition
+2026-09-04T10:15:20.036893+00:00,D,99,0,0,False,False,SAFETY_OVERRIDE,Action outside allowed action space
+2026-09-04T10:23:05.480354+00:00,A,1,1,1,False,True,AUTO_APPROVED,Safe action automatically approved
+2026-09-04T10:23:05.480354+00:00,B,1,0,0,False,False,SAFETY_OVERRIDE,Phase change blocked because minimum green duration has not elapsed
+2026-09-04T10:23:05.480354+00:00,C,1,0,0,False,False,SAFETY_OVERRIDE,Phase change blocked during yellow transition
+2026-09-04T10:23:05.481494+00:00,D,99,0,0,False,False,SAFETY_OVERRIDE,Action outside allowed action space

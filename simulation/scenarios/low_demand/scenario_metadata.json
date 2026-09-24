@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "low_demand",
+    "configuration": {
+        "name": "low_demand",
+        "demand_multiplier": 0.5,
+        "seed": 43,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 10.0,
+        "corridor_bias": null,
+        "description": "Low traffic demand scenario."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\low_demand\\routes.rou.xml",
+    "random_seed": 43,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

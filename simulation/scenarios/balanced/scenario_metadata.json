@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "balanced",
+    "configuration": {
+        "name": "balanced",
+        "demand_multiplier": 1.0,
+        "seed": 44,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 15.0,
+        "corridor_bias": null,
+        "description": "Balanced traffic distributed across the network."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\balanced\\routes.rou.xml",
+    "random_seed": 44,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

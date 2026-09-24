@@ -1,0 +1,2 @@
+policy,model,scenarios,episodes_per_scenario,total_episodes,reward_mean,reward_std,waiting_time_mean,queue_length_mean,average_speed_mean,throughput_mean,steps_mean,timestamp
+ppo_local_500k,ppo_local_500k_final,10,3,30,223.3882983199848,87.90690338709959,160.95933333333332,22.832,8.079449701846928,6.2,300.0,2026-09-17T07:24:30.485141+00:00

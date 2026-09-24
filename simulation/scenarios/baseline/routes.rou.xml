@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<routes>
+    <vType id="car" accel="2.6" decel="4.5" sigma="0.5" length="5" minGap="2.5" maxSpeed="13.89" color="0,0,255" />
+    <vType id="bus" accel="1.2" decel="4.0" sigma="0.5" length="12" maxSpeed="11.11" color="255,0,0" />
+    <vType id="truck" accel="1.0" decel="4.0" sigma="0.5" length="14" maxSpeed="10.0" color="0,255,0" />
+    <route id="west_to_east_top" edges="W1A AB B_E1" />
+    <route id="east_to_west_top" edges="E1B BA A_W1" />
+    <route id="west_to_east_bottom" edges="W2C CD D_E2" />
+    <route id="east_to_west_bottom" edges="E2D DC C_W2" />
+    <route id="north_to_south_left" edges="N1A AC C_S1" />
+    <route id="south_to_north_left" edges="S1C CA A_N1" />
+    <route id="north_to_south_right" edges="N2B BD D_S2" />
+    <route id="south_to_north_right" edges="S2D DB B_N2" />
+    <flow id="flow1" type="car" route="west_to_east_top" begin="0" end="3600" probability="0.220" />
+    <flow id="flow2" type="car" route="east_to_west_top" begin="0" end="3600" probability="0.220" />
+    <flow id="flow3" type="car" route="west_to_east_bottom" begin="0" end="3600" probability="0.200" />
+    <flow id="flow4" type="car" route="east_to_west_bottom" begin="0" end="3600" probability="0.200" />
+    <flow id="flow5" type="car" route="north_to_south_left" begin="0" end="3600" probability="0.180" />
+    <flow id="flow6" type="car" route="south_to_north_left" begin="0" end="3600" probability="0.180" />
+    <flow id="flow7" type="car" route="north_to_south_right" begin="0" end="3600" probability="0.180" />
+    <flow id="flow8" type="car" route="south_to_north_right" begin="0" end="3600" probability="0.180" />
+    <flow id="bus_top" type="bus" route="west_to_east_top" begin="0" end="3600" period="120" />
+    <flow id="bus_bottom" type="bus" route="west_to_east_bottom" begin="0" end="3600" period="150" />
+    <flow id="truck1" type="truck" route="north_to_south_left" begin="0" end="3600" period="90" />
+    <flow id="truck2" type="truck" route="south_to_north_right" begin="0" end="3600" period="110" />
+</routes>

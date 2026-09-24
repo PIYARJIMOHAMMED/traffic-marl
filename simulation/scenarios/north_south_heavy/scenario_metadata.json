@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "north_south_heavy",
+    "configuration": {
+        "name": "north_south_heavy",
+        "demand_multiplier": 1.75,
+        "seed": 48,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 15.0,
+        "corridor_bias": "north_south",
+        "description": "Heavy traffic concentrated on north-south corridors."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\north_south_heavy\\routes.rou.xml",
+    "random_seed": 48,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

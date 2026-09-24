@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<edges>
+
+    <edge id="N2C" from="N" to="C"/>
+
+    <edge id="S2C" from="S" to="C"/>
+
+    <edge id="E2C" from="E" to="C"/>
+
+    <edge id="W2C" from="W" to="C"/>
+
+    <edge id="C2N" from="C" to="N"/>
+
+    <edge id="C2S" from="C" to="S"/>
+
+    <edge id="C2E" from="C" to="E"/>
+
+    <edge id="C2W" from="C" to="W"/>
+
+</edges>

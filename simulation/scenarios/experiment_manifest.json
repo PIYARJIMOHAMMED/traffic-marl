@@ -1,0 +1,107 @@
+{
+    "project": "Traffic MARL",
+    "generator_seed": 42,
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "scenarios": [
+        {
+            "name": "baseline",
+            "demand_multiplier": 1.0,
+            "seed": 42,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 0.0,
+            "corridor_bias": null,
+            "description": "Normal traffic demand used as the primary baseline scenario."
+        },
+        {
+            "name": "low_demand",
+            "demand_multiplier": 0.5,
+            "seed": 43,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 10.0,
+            "corridor_bias": null,
+            "description": "Low traffic demand scenario."
+        },
+        {
+            "name": "balanced",
+            "demand_multiplier": 1.0,
+            "seed": 44,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 15.0,
+            "corridor_bias": null,
+            "description": "Balanced traffic distributed across the network."
+        },
+        {
+            "name": "morning_rush",
+            "demand_multiplier": 1.5,
+            "seed": 45,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 20.0,
+            "corridor_bias": "north_south",
+            "description": "Morning peak scenario with higher north-south demand."
+        },
+        {
+            "name": "evening_rush",
+            "demand_multiplier": 1.5,
+            "seed": 46,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 20.0,
+            "corridor_bias": "east_west",
+            "description": "Evening peak scenario with higher east-west demand."
+        },
+        {
+            "name": "high_demand",
+            "demand_multiplier": 2.0,
+            "seed": 47,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 15.0,
+            "corridor_bias": null,
+            "description": "High traffic demand scenario."
+        },
+        {
+            "name": "north_south_heavy",
+            "demand_multiplier": 1.75,
+            "seed": 48,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 15.0,
+            "corridor_bias": "north_south",
+            "description": "Heavy traffic concentrated on north-south corridors."
+        },
+        {
+            "name": "east_west_heavy",
+            "demand_multiplier": 1.75,
+            "seed": 49,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 15.0,
+            "corridor_bias": "east_west",
+            "description": "Heavy traffic concentrated on east-west corridors."
+        },
+        {
+            "name": "random",
+            "demand_multiplier": 1.0,
+            "seed": 50,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 30.0,
+            "corridor_bias": null,
+            "description": "Randomized traffic demand for generalization testing."
+        },
+        {
+            "name": "stress_test",
+            "demand_multiplier": 3.0,
+            "seed": 51,
+            "start_time": 0.0,
+            "end_time": 900.0,
+            "departure_jitter": 5.0,
+            "corridor_bias": null,
+            "description": "Extreme traffic demand used for safety and robustness testing."
+        }
+    ]
+}

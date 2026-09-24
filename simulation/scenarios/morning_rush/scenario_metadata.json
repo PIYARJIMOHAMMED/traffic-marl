@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "morning_rush",
+    "configuration": {
+        "name": "morning_rush",
+        "demand_multiplier": 1.5,
+        "seed": 45,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 20.0,
+        "corridor_bias": "north_south",
+        "description": "Morning peak scenario with higher north-south demand."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\morning_rush\\routes.rou.xml",
+    "random_seed": 45,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

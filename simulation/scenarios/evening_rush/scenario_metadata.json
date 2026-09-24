@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "evening_rush",
+    "configuration": {
+        "name": "evening_rush",
+        "demand_multiplier": 1.5,
+        "seed": 46,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 20.0,
+        "corridor_bias": "east_west",
+        "description": "Evening peak scenario with higher east-west demand."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\evening_rush\\routes.rou.xml",
+    "random_seed": 46,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

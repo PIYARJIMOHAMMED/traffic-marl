@@ -1,0 +1,2 @@
+policy,episodes,reward_mean,reward_std,waiting_time_mean,queue_length_mean,average_speed_mean,throughput_mean,steps_mean
+ppo_marl_500k,30,160.05613029392154,97.07750171647994,1429.4468888888891,31.79533333333334,7.37296042737509,366.46666666666664,300.0

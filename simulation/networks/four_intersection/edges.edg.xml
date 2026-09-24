@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<edges>
+
+    <!-- ===================================================== -->
+    <!-- External Roads -->
+    <!-- ===================================================== -->
+
+    <!-- North -->
+
+    <edge id="N1A" from="N1" to="A" numLanes="2" speed="13.89"/>
+    <edge id="A_N1" from="A" to="N1" numLanes="2" speed="13.89"/>
+
+    <edge id="N2B" from="N2" to="B" numLanes="2" speed="13.89"/>
+    <edge id="B_N2" from="B" to="N2" numLanes="2" speed="13.89"/>
+
+    <!-- South -->
+
+    <edge id="S1C" from="S1" to="C" numLanes="2" speed="13.89"/>
+    <edge id="C_S1" from="C" to="S1" numLanes="2" speed="13.89"/>
+
+    <edge id="S2D" from="S2" to="D" numLanes="2" speed="13.89"/>
+    <edge id="D_S2" from="D" to="S2" numLanes="2" speed="13.89"/>
+
+    <!-- West -->
+
+    <edge id="W1A" from="W1" to="A" numLanes="2" speed="13.89"/>
+    <edge id="A_W1" from="A" to="W1" numLanes="2" speed="13.89"/>
+
+    <edge id="W2C" from="W2" to="C" numLanes="2" speed="13.89"/>
+    <edge id="C_W2" from="C" to="W2" numLanes="2" speed="13.89"/>
+
+    <!-- East -->
+
+    <edge id="E1B" from="E1" to="B" numLanes="2" speed="13.89"/>
+    <edge id="B_E1" from="B" to="E1" numLanes="2" speed="13.89"/>
+
+    <edge id="E2D" from="E2" to="D" numLanes="2" speed="13.89"/>
+    <edge id="D_E2" from="D" to="E2" numLanes="2" speed="13.89"/>
+
+    <!-- ===================================================== -->
+    <!-- Internal Roads -->
+    <!-- ===================================================== -->
+
+    <!-- Horizontal -->
+
+    <edge id="AB" from="A" to="B" numLanes="2" speed="13.89"/>
+    <edge id="BA" from="B" to="A" numLanes="2" speed="13.89"/>
+
+    <edge id="CD" from="C" to="D" numLanes="2" speed="13.89"/>
+    <edge id="DC" from="D" to="C" numLanes="2" speed="13.89"/>
+
+    <!-- Vertical -->
+
+    <edge id="AC" from="A" to="C" numLanes="2" speed="13.89"/>
+    <edge id="CA" from="C" to="A" numLanes="2" speed="13.89"/>
+
+    <edge id="BD" from="B" to="D" numLanes="2" speed="13.89"/>
+    <edge id="DB" from="D" to="B" numLanes="2" speed="13.89"/>
+
+</edges>

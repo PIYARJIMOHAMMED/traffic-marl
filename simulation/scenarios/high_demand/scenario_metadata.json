@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "high_demand",
+    "configuration": {
+        "name": "high_demand",
+        "demand_multiplier": 2.0,
+        "seed": 47,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 15.0,
+        "corridor_bias": null,
+        "description": "High traffic demand scenario."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\high_demand\\routes.rou.xml",
+    "random_seed": 47,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

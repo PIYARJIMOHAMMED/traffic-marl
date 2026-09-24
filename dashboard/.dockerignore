@@ -1,0 +1,14 @@
+.git
+.gitignore
+__pycache__
+*.pyc
+.pytest_cache
+.venv
+envir
+rl/checkpoints
+rl/logs
+rl/results
+*.zip
+*.mp4
+.env
+backend/.env

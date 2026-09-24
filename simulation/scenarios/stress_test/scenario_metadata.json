@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "stress_test",
+    "configuration": {
+        "name": "stress_test",
+        "demand_multiplier": 3.0,
+        "seed": 51,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 5.0,
+        "corridor_bias": null,
+        "description": "Extreme traffic demand used for safety and robustness testing."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\stress_test\\routes.rou.xml",
+    "random_seed": 51,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

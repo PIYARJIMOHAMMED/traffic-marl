@@ -1,0 +1,54 @@
+{
+    "project": "MAI-07",
+    "algorithm": "PPO",
+    "baseline": "PPO-Local",
+    "total_timesteps": 500000,
+    "seed": 42,
+    "episode_steps": 300,
+    "scenarios": [
+        "baseline",
+        "low_demand",
+        "balanced",
+        "morning_rush",
+        "evening_rush",
+        "high_demand",
+        "north_south_heavy",
+        "east_west_heavy",
+        "random",
+        "stress_test"
+    ],
+    "network": {
+        "intersections": 4,
+        "agents": 4,
+        "topology": "2x2 grid"
+    },
+    "observation": {
+        "underlying_dimension": 120,
+        "local_dimension": 60,
+        "local_features_per_agent": 15,
+        "agents": 4,
+        "neighbour_information_used": false
+    },
+    "action_space": {
+        "type": "MultiDiscrete",
+        "agents": 4,
+        "actions_per_agent": 2,
+        "values": [
+            0,
+            1
+        ]
+    },
+    "hyperparameters": {
+        "learning_rate": 0.0003,
+        "n_steps": 256,
+        "batch_size": 64,
+        "gamma": 0.99,
+        "gae_lambda": 0.95,
+        "clip_range": 0.2,
+        "ent_coef": 0.01,
+        "vf_coef": 0.5,
+        "max_grad_norm": 0.5
+    },
+    "model_path": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\rl\\checkpoints\\ppo_local_500k\\ppo_local_500k_final.zip",
+    "description": "PPO-Local baseline trained for 500,000 timesteps across all ten traffic-demand scenarios. The model receives only local traffic features from the four intersections and does not receive neighbour features."
+}

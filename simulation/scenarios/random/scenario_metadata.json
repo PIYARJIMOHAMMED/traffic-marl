@@ -1,0 +1,22 @@
+{
+    "project": "Traffic MARL",
+    "module": "Scenario Generator",
+    "scenario": "random",
+    "configuration": {
+        "name": "random",
+        "demand_multiplier": 1.0,
+        "seed": 50,
+        "start_time": 0.0,
+        "end_time": 900.0,
+        "departure_jitter": 30.0,
+        "corridor_bias": null,
+        "description": "Randomized traffic demand for generalization testing."
+    },
+    "source_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\routes.rou.xml",
+    "generated_route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\random\\routes.rou.xml",
+    "random_seed": 50,
+    "statistics": {
+        "flows_found": 12,
+        "flows_modified": 12
+    }
+}

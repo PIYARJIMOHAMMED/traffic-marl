@@ -1,0 +1,166 @@
+{
+    "project": "Traffic MARL",
+    "version": "2.0",
+    "network": {
+        "name": "four_intersection",
+        "file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\networks\\four_intersection\\network.net.xml"
+    },
+    "simulation": {
+        "begin": 0,
+        "end": 3600,
+        "step_length": 1
+    },
+    "random_seed": 42,
+    "scenarios": {
+        "baseline": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\baseline\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\baseline\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.22,
+                "flow2": 0.22,
+                "flow3": 0.2,
+                "flow4": 0.2,
+                "flow5": 0.18,
+                "flow6": 0.18,
+                "flow7": 0.18,
+                "flow8": 0.18
+            }
+        },
+        "low_demand": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\low_demand\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\low_demand\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.11,
+                "flow2": 0.11,
+                "flow3": 0.1,
+                "flow4": 0.1,
+                "flow5": 0.09,
+                "flow6": 0.09,
+                "flow7": 0.09,
+                "flow8": 0.09
+            }
+        },
+        "balanced": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\balanced\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\balanced\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.18,
+                "flow2": 0.18,
+                "flow3": 0.18,
+                "flow4": 0.18,
+                "flow5": 0.18,
+                "flow6": 0.18,
+                "flow7": 0.18,
+                "flow8": 0.18
+            }
+        },
+        "morning_rush": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\morning_rush\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\morning_rush\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.38,
+                "flow2": 0.08,
+                "flow3": 0.34,
+                "flow4": 0.08,
+                "flow5": 0.3,
+                "flow6": 0.08,
+                "flow7": 0.28,
+                "flow8": 0.08
+            }
+        },
+        "evening_rush": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\evening_rush\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\evening_rush\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.08,
+                "flow2": 0.38,
+                "flow3": 0.08,
+                "flow4": 0.34,
+                "flow5": 0.08,
+                "flow6": 0.3,
+                "flow7": 0.08,
+                "flow8": 0.28
+            }
+        },
+        "high_demand": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\high_demand\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\high_demand\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.33,
+                "flow2": 0.33,
+                "flow3": 0.3,
+                "flow4": 0.3,
+                "flow5": 0.27,
+                "flow6": 0.27,
+                "flow7": 0.27,
+                "flow8": 0.27
+            }
+        },
+        "north_south_heavy": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\north_south_heavy\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\north_south_heavy\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.08,
+                "flow2": 0.08,
+                "flow3": 0.08,
+                "flow4": 0.08,
+                "flow5": 0.4,
+                "flow6": 0.36,
+                "flow7": 0.4,
+                "flow8": 0.36
+            }
+        },
+        "east_west_heavy": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\east_west_heavy\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\east_west_heavy\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.4,
+                "flow2": 0.36,
+                "flow3": 0.4,
+                "flow4": 0.36,
+                "flow5": 0.08,
+                "flow6": 0.08,
+                "flow7": 0.08,
+                "flow8": 0.08
+            }
+        },
+        "random": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\random\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\random\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.285,
+                "flow2": 0.088,
+                "flow3": 0.168,
+                "flow4": 0.151,
+                "flow5": 0.316,
+                "flow6": 0.297,
+                "flow7": 0.365,
+                "flow8": 0.108
+            }
+        },
+        "stress_test": {
+            "config_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\stress_test\\simulation.sumocfg",
+            "route_file": "C:\\Users\\MOHAMMED PIYARJI\\traffic-marl\\simulation\\scenarios\\stress_test\\routes.rou.xml",
+            "valid": true,
+            "demand_profile": {
+                "flow1": 0.55,
+                "flow2": 0.2,
+                "flow3": 0.5,
+                "flow4": 0.18,
+                "flow5": 0.45,
+                "flow6": 0.12,
+                "flow7": 0.5,
+                "flow8": 0.12
+            }
+        }
+    }
+}
