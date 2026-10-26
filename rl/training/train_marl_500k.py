@@ -1,42 +1,3 @@
-"""
-=========================================================
-Traffic MARL Project
-Multi-Agent Reinforcement Learning for Network-Wide
-Adaptive Traffic Control
-
-Final PPO-MARL Multi-Scenario Training
-=========================================================
-
-Purpose:
-    Retrain PPO-MARL across all configured SUMO traffic
-    scenarios instead of training only on baseline.
-
-Architecture:
-    4 traffic-light agents
-    120-dimensional graph-aware global observation
-    MultiDiscrete([2, 2, 2, 2]) action space
-    Cooperative MARL reward
-    Safety-aware traffic control
-    SUMO / TraCI simulation
-
-Training:
-    500,000 timesteps
-    All 10 scenarios
-    Deterministic seed
-    Periodic checkpoints
-    Training progress monitoring
-
-IMPORTANT:
-    This project uses one global TraCI connection.
-    Therefore this training script intentionally uses
-    ONE Gym environment and changes the scenario between
-    episodes rather than running multiple SUMO instances
-    simultaneously.
-
-Author:
-    Mohammed Piyarji
-=========================================================
-"""
 from pathlib import Path
 import sys
 import os
@@ -758,19 +719,6 @@ def main():
         SEED
     )
 
-    # -----------------------------------------------------
-    # HEADLESS SUMO
-    # -----------------------------------------------------
-    #
-    # The existing config contains GUI=False but the
-    # TrafficEnvironment currently reads SUMO_BINARY
-    # directly.
-    #
-    # Therefore we override the imported configuration
-    # ONLY for this Python training process.
-    #
-    # No project source functionality is changed.
-    # -----------------------------------------------------
 
     EnvironmentConfig.SUMO_BINARY = "sumo"
 

@@ -309,6 +309,44 @@ def write_audit(logger: AuditLogger, approval: Any) -> None:
         )
 
 
+def audit_record_stats() -> dict[str, Any]:
+    """Read the real number of persisted audit records from the audit CSV files."""
+    audit_files = [
+        AUDIT_PATH,
+        AUDIT_PATH.parent / "flask_episode_approval_audit.csv",
+    ]
+
+    total = 0
+    files: list[dict[str, Any]] = []
+
+    for path in audit_files:
+        count = 0
+        if path.exists():
+            try:
+                # CSV headers are not audit records.
+                with path.open("r", encoding="utf-8", newline="") as handle:
+                    row_count = sum(1 for _ in handle)
+                count = max(0, row_count - 1)
+            except (OSError, UnicodeError):
+                try:
+                    count = int(len(pd.read_csv(path, low_memory=False)))
+                except Exception:
+                    count = 0
+
+        total += count
+        files.append({
+            "name": path.name,
+            "records": count,
+            "exists": path.exists(),
+        })
+
+    return {
+        "enabled": True,
+        "record_count": total,
+        "files": files,
+    }
+
+
 # ============================================================
 # LIVE PPO-MARL ENGINE
 # ============================================================
@@ -451,7 +489,6 @@ class LiveTrafficEngine:
             if governance not in {
                 "automatic",
                 "approval_required",
-                "emergency",
             }:
                 raise ValueError(f"Unsupported governance mode: {governance}")
 
@@ -1452,7 +1489,7 @@ class LiveTrafficEngine:
                     else None
                 ),
                 "audit": {
-                    "enabled": True,
+                    **audit_record_stats(),
                     "path": str(AUDIT_PATH),
                     "episode_approval_path": str(
                         AUDIT_PATH.parent / "flask_episode_approval_audit.csv"
@@ -1741,8 +1778,10 @@ def api_audit():
                 "error": str(exc),
             })
 
+    stats = audit_record_stats()
     return jsonify({
         "available": bool(files),
+        "record_count": stats["record_count"],
         "files": files,
     })
 
@@ -1966,7 +2005,7 @@ PROJECT_HTML = COMMON_CSS + NAV + r'''
         <tr><th>Agents</th><td>A, B, C, D</td></tr>
         <tr><th>Graph</th><td>A–B · A–C · B–D · C–D</td></tr>
         <tr><th>Safety</th><td>Minimum-green and yellow-transition protection</td></tr>
-        <tr><th>Governance</th><td>Automatic · Risk-Triggered · Emergency</td></tr>
+        <tr><th>Governance</th><td>Automatic · Risk-Triggered</td></tr>
         <tr><th>Audit</th><td>Proposal → safety decision → human decision → final action</td></tr>
         <tr><th>Simulation</th><td>SUMO / TraCI</td></tr>
       </table>
@@ -2023,7 +2062,7 @@ boot();
 LIVE_HTML = COMMON_CSS + NAV + r'''
 <div class="container">
   <section class="hero" style="padding:22px 26px">
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h1 style="font-size:25px;margin:0">Live PPO-MARL Control Center</h1><span id="liveStatus" class="badge" style="background:rgba(255,255,255,.14);color:white">NOT STARTED</span></div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><h1 style="font-size:25px;margin:0">Live PPO-MARL Control Center</h1><span id="liveStatus" class="badge" style="background:rgba(255,255,255,.14);color:white">NOT STARTED</span><span id="auditStatus" class="badge good">AUDIT ACTIVE · 0 records</span></div>
     <p style="margin-top:7px">Only the completed PPO-MARL 500K model controls the live SUMO simulation. Fixed-Time and Queue-Based controllers are never used for live control.</p>
   </section>
 
@@ -2032,10 +2071,9 @@ LIVE_HTML = COMMON_CSS + NAV + r'''
       <div class="field"><label>TRAFFIC SCENARIO</label><select id="scenario">
         <option value="baseline">Baseline</option><option value="low_demand">Low Demand</option><option value="balanced">Balanced</option><option value="morning_rush">Morning Rush</option><option value="evening_rush">Evening Rush</option><option value="high_demand">High Demand</option><option value="north_south_heavy">North-South Heavy</option><option value="east_west_heavy">East-West Heavy</option><option value="random">Random Demand</option><option value="stress_test">Stress Test</option>
       </select></div>
-      <div class="field"><label>CONTROL MODE AFTER EPISODE APPROVAL</label><select id="governance">
+      <div class="field"><label>CONTROL MODE</label><select id="governance">
         <option value="automatic">Automatic — normal PPO control</option>
         <option value="approval_required">Risk-Triggered — human reviews high-risk states</option>
-        <option value="emergency">Emergency — safety priority</option>
       </select></div>
       <button class="btn primary" onclick="prepareEpisode()">▶ PREPARE NEW EPISODE</button><button class="btn" onclick="resumeRun()">RESUME</button><button class="btn" onclick="pauseRun()">PAUSE</button><button class="btn" onclick="stepRun()">STEP</button><button class="btn danger" onclick="stopRun()">STOP</button>
     </div>
@@ -2054,10 +2092,6 @@ LIVE_HTML = COMMON_CSS + NAV + r'''
   </div>
 
   <div class="grid g4" style="margin-top:16px">
-    <div class="card kpi"><div class="label">Operational Health</div><div class="value" id="health">—</div><div class="sub">dashboard diagnostic</div></div>
-    <div class="card kpi"><div class="label">Queued Vehicles</div><div class="value" id="queue">0</div><div class="sub">speed ≤ 0.1 m/s</div></div>
-    <div class="card kpi"><div class="label">Network Waiting</div><div class="value" id="waiting">0s</div><div class="sub">sum of accumulated waiting time</div></div>
-    <div class="card kpi"><div class="label">Average Speed</div><div class="value" id="speed">0</div><div class="sub">m/s</div></div>
     <div class="card kpi"><div class="label">Current Vehicles</div><div class="value" id="vehicles">0</div><div class="sub">in network</div></div>
     <div class="card kpi"><div class="label">Completed Trips</div><div class="value" id="arrivals">0</div><div class="sub">SUMO arrivals</div></div>
     <div class="card kpi"><div class="label">Simulation Step</div><div class="value" id="step">0/300</div><div class="sub">controller step</div></div>
@@ -2073,8 +2107,6 @@ LIVE_HTML = COMMON_CSS + NAV + r'''
   </div>
 
   <div id="actionGate" class="approval hidden" style="margin-top:16px"><h3>🟠 RISK-TRIGGERED HUMAN REVIEW</h3><p><strong>Why is approval required now?</strong> The episode is already authorized. The system paused because the selected Risk-Triggered mode detected a high-risk traffic state. The human is reviewing the AI's proposed signal actions, not authorizing the whole project.</p><div id="riskReason" class="alert warn"></div><div class="decision-grid" id="pendingDecisions" style="margin-top:10px"></div><div style="margin-top:13px;display:flex;gap:9px"><button class="btn primary" onclick="approveAction(true)">✓ APPROVE SAFE ACTIONS</button><button class="btn danger" onclick="approveAction(false)">✕ REJECT / KEEP SAFETY-AUTHORIZED ACTIONS</button></div></div>
-
-  <div class="card" style="margin-top:16px"><h3>🚨 Emergency / Safety Priority — what does it mean?</h3><div class="flow"><div class="node">PPO-MARL proposal</div><div class="arrow">→</div><div class="node">Safety validator</div><div class="arrow">→</div><div class="node">Unsafe?</div><div class="arrow">→</div><div class="node">Replace with safe action</div><div class="arrow">→</div><div class="node">Execute immediately</div></div><div class="muted" style="text-align:center">Emergency mode does not wait for a human to unblock a safety-critical action. The human still authorizes the episode at the beginning.</div></div>
 
   <div class="card live-performance-card" style="margin-top:16px">
     <div class="section-head">
@@ -2104,9 +2136,17 @@ LIVE_HTML = COMMON_CSS + NAV + r'''
       <div id="toolRegistry" class="grid g2" style="margin-top:10px"></div>
     </div>
     <div class="card">
-      <h3>🧾 Audit Trail</h3>
-      <div class="muted">Saved safety decisions and episode-authorization records.</div>
-      <div id="auditStatus" style="margin-top:10px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>🧾 Audit Trail</h3>
+        <span class="badge good">LIVE AUDIT · AUTO REFRESH</span>
+      </div>
+      <div class="muted" style="margin-top:4px">Latest 20 audit records. dispaly<br>Audit data refreshes every 1 second.</div>
+      <div class="muted" style="margin-top:8px;font-size:11.5px;color:#8fa0c2;">
+        <strong>Browser real-time clock:</strong> <span id="auditClockBrowser">—</span> |
+        <strong>Last server audit refresh:</strong> <span id="auditClockServer">—</span> |
+        <strong>Latest audit timestamp:</strong> <span id="auditClockLatest">—</span>
+      </div>
+      <div id="auditTrailStatus" style="margin-top:10px"></div>
       <div class="scroll" style="margin-top:10px;max-height:240px">
         <table><thead><tr><th>Time</th><th>Subject</th><th>Status</th><th>Reason</th></tr></thead>
         <tbody id="auditRows"></tbody></table>
@@ -2269,12 +2309,17 @@ async function refreshAudit(){
   try{
     const r=await fetch('/api/audit');
     const d=await r.json();
-    const status=document.getElementById('auditStatus');
+    const status=document.getElementById('auditTrailStatus');
     const root=document.getElementById('auditRows');
+    const now = new Date().toLocaleTimeString();
+
+    document.getElementById('auditClockBrowser').textContent = now;
+    document.getElementById('auditClockServer').textContent = now;
 
     if(!d.available){
-      status.innerHTML='<span class="badge warn">No audit records yet.</span>';
-      root.innerHTML='';
+      if(status) status.innerHTML='<span class="badge warn">No audit records yet.</span>';
+      if(root) root.innerHTML='';
+      document.getElementById('auditClockLatest').textContent = '—';
       return;
     }
 
@@ -2294,15 +2339,19 @@ async function refreshAudit(){
     }
 
     rows.sort((a,b)=>String(b.time).localeCompare(String(a.time)));
-    root.innerHTML=rows.slice(0,20).map(x=>
-      `<tr><td>${x.time}</td><td>${x.subject}</td><td>${x.status}</td><td>${x.reason}</td></tr>`
-    ).join('');
+    if(root){
+      root.innerHTML=rows.slice(0,20).map(x=>
+        `<tr><td>${x.time}</td><td>${x.subject}</td><td>${x.status}</td><td>${x.reason}</td></tr>`
+      ).join('');
+    }
 
-    status.innerHTML=
-      `<span class="badge good">✓ AUDIT ACTIVE · ${rows.length} recent records</span>`;
+    document.getElementById('auditClockLatest').textContent = rows.length > 0 ? rows[0].time : '—';
+    if(status) {
+      status.innerHTML= `<span class="badge good">✓ AUDIT ACTIVE · ${rows.length} recent records</span>`;
+    }
   }catch(e){
-    document.getElementById('auditStatus').innerHTML=
-      '<span class="badge bad">Audit endpoint unavailable.</span>';
+    const status=document.getElementById('auditTrailStatus');
+    if(status) status.innerHTML= '<span class="badge bad">Audit endpoint unavailable.</span>';
   }
 }
 
@@ -2336,11 +2385,14 @@ function renderChart(s){
     legend:{font:{color:'#eaf0ff'},bgcolor:'rgba(0,0,0,0)'}
   },{responsive:true,displaylogo:false});
 }
-async function refresh(){try{const r=await fetch('/api/state');const s=await r.json();const m=s.metrics||{};document.getElementById('health').textContent=s.health==null?'—':fmt(s.health,1)+'%';document.getElementById('queue').textContent=fmt(m.queue,0);document.getElementById('waiting').textContent=fmt(m.waiting,0)+'s';document.getElementById('speed').textContent=fmt(m.speed,2);document.getElementById('vehicles').textContent=fmt(m.vehicles,0);document.getElementById('arrivals').textContent=fmt(m.arrivals,0);document.getElementById('step').textContent=`${s.step}/${s.max_steps}`;document.getElementById('overrides').textContent=s.overrides;document.getElementById('violations').textContent=s.violations;renderTools(s);document.getElementById('mode').textContent=(s.governance||'—').replaceAll('_',' ');const ls=document.getElementById('liveStatus');ls.textContent=s.pending_episode?'WAITING FOR EPISODE APPROVAL':s.pending?'WAITING FOR RISK REVIEW':s.running?'LIVE · PPO-MARL':s.finished?'EPISODE FINISHED':'NOT STARTED';renderAgents(s);renderMap(s);renderCommands(s);renderApproval(s);renderTrace(s);renderChart(s);document.getElementById('safetyText').className='alert '+(s.violations>0?'bad':'good');document.getElementById('safetyText').textContent=s.violations>0?'Safety violations recorded. Review the trace.':`Safety layer active. ${s.overrides} PPO proposals modified by the safety layer; 0 violations.`}catch(e){}}
+async function refresh(){try{const r=await fetch('/api/state');const s=await r.json();const m=s.metrics||{};document.getElementById('vehicles').textContent=fmt(m.vehicles,0);document.getElementById('arrivals').textContent=fmt(m.arrivals,0);document.getElementById('step').textContent=`${s.step}/${s.max_steps}`;document.getElementById('overrides').textContent=s.overrides;document.getElementById('violations').textContent=s.violations;renderTools(s);document.getElementById('mode').textContent=(s.governance||'—').replaceAll('_',' ');const ls=document.getElementById('liveStatus');ls.textContent=s.pending_episode?'WAITING FOR EPISODE APPROVAL':s.pending?'WAITING FOR RISK REVIEW':s.running?'LIVE · PPO-MARL':s.finished?'EPISODE FINISHED':'NOT STARTED';const auditCount=Number((s.audit||{}).record_count||0);document.getElementById('auditStatus').textContent=`AUDIT ACTIVE · ${auditCount} records`;renderAgents(s);renderMap(s);renderCommands(s);renderApproval(s);renderTrace(s);renderChart(s);document.getElementById('safetyText').className='alert '+(s.violations>0?'bad':'good');document.getElementById('safetyText').textContent=s.violations>0?'Safety violations recorded. Review the trace.':`Safety layer active. ${s.overrides} PPO proposals modified by the safety layer; 0 violations.`}catch(e){const badge=document.getElementById('auditStatus');if(badge)badge.textContent='AUDIT STATUS UNAVAILABLE';}}
 document.getElementById('liveMetric')?.addEventListener('change',()=>{
   fetch('/api/state').then(r=>r.json()).then(renderChart).catch(()=>{});
 });
-refresh();refreshAudit();timer=setInterval(refresh,800);setInterval(refreshAudit,3000);
+refresh();
+refreshAudit();
+timer=setInterval(refresh,800);
+setInterval(refreshAudit,1000);
 </script>
 '''
 
@@ -2394,10 +2446,6 @@ EVALUATION_HTML = COMMON_CSS + NAV + r'''
 </select></div></div>
 <div id="scenarioDetail" style="margin-top:15px"></div><div class="chart-shell" style="margin-top:12px"><div id="scenarioChart" class="chart"></div></div>
 <div class="alert info" style="margin-top:12px"><strong>Reading the graph:</strong> only the selected scenario and selected metric are plotted.</div></div>
-<h2 class="section-title">Failure / robustness analysis</h2>
-<div class="grid g2"><div class="card"><h3>⚠ Directional-demand edge case · East-West Heavy</h3><p id="failureDirectional" class="muted">Loading saved evidence…</p></div>
-<div class="card"><h3>⚠ Extreme-demand stress test</h3><p id="failureStress" class="muted">Loading saved evidence…</p></div></div>
-<div class="card" style="margin-top:16px"><h3>Interpretation</h3><div class="alert info">The stress scenarios are included to expose degradation rather than hide it. The proposed controller is compared metric-by-metric with the DQN baseline; no single overall score is assigned.</div></div>
 <h2 class="section-title">Selected-scenario evidence table</h2>
 <div class="card"><p class="muted">The table below is populated directly from the saved DQN and PPO-MARL scenario CSV evidence.</p><div class="scroll"><table><thead><tr><th>Metric</th><th>DQN 500K</th><th>PPO-MARL 500K</th><th>Direction</th></tr></thead><tbody id="selectedTable"></tbody></table></div></div>
 <h2 class="section-title">Saved evaluation CSV evidence</h2>
@@ -2454,8 +2502,7 @@ function renderOverall(){
 
 function scenarioPair(s,k){const a=rowFor(dqnRows,s),b=rowFor(marlRows,s);return {dqn:a?metricVal(a,k):null,local:b?metricVal(b,k):null}}
 function renderScenario(){const s=document.getElementById('scenarioSelect').value,all={};Object.keys(MET).forEach(k=>all[k]=scenarioPair(s,k));document.getElementById('scenarioDetail').innerHTML='<div class="grid g5">'+Object.keys(MET).map(k=>`<div class="stat"><small>${MET[k].label}</small><strong>${fmt(all[k].dqn)} / ${fmt(all[k].local)}</strong><span class="muted">DQN / PPO-MARL</span></div>`).join('')+'</div>';document.getElementById('selectedTable').innerHTML=Object.keys(MET).map(k=>`<tr><td><strong>${MET[k].label}</strong></td><td class="num">${fmt(all[k].dqn)}</td><td class="num">${fmt(all[k].local)}</td><td>${MET[k].higher?'Higher is better':'Lower is better'}</td></tr>`).join('');const k=document.getElementById('metricSelect').value,p=all[k];Plotly.react('scenarioChart',[{x:['DQN 500K','PPO-MARL 500K'],y:[p.dqn,p.local],type:'bar',text:[fmt(p.dqn),fmt(p.local)],textposition:'auto'}],{paper_bgcolor:'#fff',plot_bgcolor:'#f7f9fc',font:{color:'#243247'},margin:{l:75,r:25,t:55,b:80},xaxis:{title:'Controller'},yaxis:{title:MET[k].label,rangemode:'tozero'},title:{text:lab(s)+' · '+MET[k].label,x:0.02,font:{size:16}}},{responsive:true,displaylogo:false})}
-function renderFailures(){const ewD=rowFor(dqnRows,'east_west_heavy'),ewL=rowFor(marlRows,'east_west_heavy'),stD=rowFor(dqnRows,'stress_test'),stL=rowFor(marlRows,'stress_test');document.getElementById('failureDirectional').innerHTML=`DQN reward ${fmt(metricVal(ewD,'reward'))} vs PPO-MARL ${fmt(metricVal(ewL,'reward'))}; waiting ${fmt(metricVal(ewD,'waiting'))} vs ${fmt(metricVal(ewL,'waiting'))}; queue ${fmt(metricVal(ewD,'queue'))} vs ${fmt(metricVal(ewL,'queue'))}; speed ${fmt(metricVal(ewD,'speed'))} vs ${fmt(metricVal(ewL,'speed'))}. This scenario exposes a case where PPO-MARL does not improve every metric.`;document.getElementById('failureStress').innerHTML=`DQN reward ${fmt(metricVal(stD,'reward'))} vs PPO-MARL ${fmt(metricVal(stL,'reward'))}; waiting ${fmt(metricVal(stD,'waiting'))} vs ${fmt(metricVal(stL,'waiting'))}; queue ${fmt(metricVal(stD,'queue'))} vs ${fmt(metricVal(stL,'queue'))}; speed ${fmt(metricVal(stD,'speed'))} vs ${fmt(metricVal(stL,'speed'))}. Both controllers degrade under extreme demand, making this a robustness/failure case.`}
-async function loadScenario(){const d=await (await fetch('/api/evaluation/scenarios')).json();if(!d.available){document.getElementById('scenarioDetail').innerHTML='<div class="alert bad">Scenario evidence unavailable.</div>';return}dqnRows=d.dqn_rows||[];marlRows=d.ppo_marl_rows||[];const select=document.getElementById('scenarioSelect');select.innerHTML=SC.filter(s=>rowFor(dqnRows,s)||rowFor(marlRows,s)).map(s=>`<option value="${s}">${lab(s)}</option>`).join('');if(select.options.length){select.onchange=renderScenario;document.getElementById('metricSelect').onchange=renderScenario;renderScenario();renderFailures()}}
+async function loadScenario(){const d=await (await fetch('/api/evaluation/scenarios')).json();if(!d.available){document.getElementById('scenarioDetail').innerHTML='<div class="alert bad">Scenario evidence unavailable.</div>';return}dqnRows=d.dqn_rows||[];marlRows=d.ppo_marl_rows||[];const select=document.getElementById('scenarioSelect');select.innerHTML=SC.filter(s=>rowFor(dqnRows,s)||rowFor(marlRows,s)).map(s=>`<option value="${s}">${lab(s)}</option>`).join('');if(select.options.length){select.onchange=renderScenario;document.getElementById('metricSelect').onchange=renderScenario;renderScenario()}}
 document.getElementById('overallMetricSelect')?.addEventListener('change',renderOverallChart);
 
 async function loadOverall(){const d=await (await fetch('/api/evaluation/overall')).json();if(!d.available){document.getElementById('overallStatus').innerHTML='<span class="badge bad">Saved summary evidence unavailable.</span>';return}dqnOverall=d.dqn;marlOverall=d.ppo_marl;renderOverall()}
@@ -2476,13 +2523,13 @@ if __name__ == "__main__":
     print("MAI-07 | Traffic Control Center", flush=True)
     print("=" * 72, flush=True)
     print(f"Project root : {PROJECT_ROOT}", flush=True)
-    print(f"Model       : {MODEL_PATH}", flush=True)
-    print(f"Model found : {MODEL_PATH.exists()}", flush=True)
-    print(f"SUMO binary : {find_sumo()}", flush=True)
-    print(f"SUMO-GUI    : {find_sumo_gui() or 'not found (headless fallback)'}", flush=True)
-    print("Dashboard   : http://127.0.0.1:8501/", flush=True)
-    print("Live page   : http://127.0.0.1:8501/live", flush=True)
-    print("Evaluation  : http://127.0.0.1:8501/evaluation", flush=True)
+    print(f"Model        : {MODEL_PATH}", flush=True)
+    print(f"Model found  : {MODEL_PATH.exists()}", flush=True)
+    print(f"SUMO binary  : {find_sumo()}", flush=True)
+    print(f"SUMO-GUI     : {find_sumo_gui() or 'not found (headless fallback)'}", flush=True)
+    print("Dashboard    : http://127.0.0.1:8501/", flush=True)
+    print("Live page    : http://127.0.0.1:8501/live", flush=True)
+    print("Evaluation   : http://127.0.0.1:8501/evaluation", flush=True)
     print("=" * 72, flush=True)
     app.run(
         host=os.environ.get("TRAFFIC_DASHBOARD_HOST", "127.0.0.1"),
