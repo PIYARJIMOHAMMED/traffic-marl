@@ -1,4 +1,4 @@
-#MAI-07 | Multi-Agent Reinforcement Learning for Network-Wide Adaptive Traffic Control
+MAI-07 | Multi-Agent Reinforcement Learning for Network-Wide Adaptive Traffic Control
 
 Purpose:
 - security/threat model
